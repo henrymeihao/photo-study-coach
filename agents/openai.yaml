@@ -1,0 +1,4 @@
+interface:
+  display_name: "摄影拆解与练习"
+  short_description: "把摄影参考作品拆成构图用光学习手册，并连接实拍练习与对照复盘"
+  default_prompt: "用 $photo-study-coach 分析这组摄影作品，区分可见事实和推测，给我一份学习手册和一个实拍练习。"
