@@ -11,7 +11,7 @@
 - **反事实学习**：只改变一个变量，推演画面可能怎样变化、会获得和失去什么，再设计 A/B 实拍验证；推演不是实际拍摄事实。
 - 制作构图标注、机位与布光示意，区分事实和推测。
 - 有实际图片和计算工具时生成色彩统计，避免编造比例。
-- 优先输出可离线打开、含可切换标注的单文件 HTML 学习手册；按需输出 PDF，并保留可编辑 Markdown。
+- 默认以三分钟速学卡进入：现场四步决策、跨场景迁移和A/B回传说明；深度分析与EXIF折叠。离线HTML保留可切换标注、原图放大和可编辑Markdown，PDF按需。
 - 比较参考与自己的照片，提出下一次实拍可以改变的一件事。
 
 ## 安装与使用
@@ -42,9 +42,10 @@
 
 ```text
 SKILL.md                 技能入口与分析、练习、复盘流程
-references/photo-analysis.md   摄影分析引擎 v3：主技巧、反事实与专业深读
-references/acceptance-tests.md  验收场景与打分
+references/photo-analysis.md   摄影分析引擎 v4：现场决策、迁移与按需深读
+references/acceptance-tests.md  技术与教学验收场景
 references/handbook.md         学习手册版式与检查要求
+references/practice-review.md  A/B练习回传、反馈与学习状态证据
 agents/openai.yaml            技能展示信息
 ```
 
