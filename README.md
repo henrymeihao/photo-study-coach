@@ -12,7 +12,9 @@
 
 ## 模型要求
 
-模型必须能读取图片。纯文本模型看不到照片，技能会在第一步停下并提示你换模型。以 DeepSeek 为例，按 2026-11-18 的[官方模型页](https://api-docs.deepseek.com/quick_start/pricing)，`deepseek-flash` 支持图片输入，V4-Pro 不支持。其他模型请查各自文档。
+模型必须能读取图片。以 DeepSeek 为例，按 2026-11-18 的[官方模型页](https://api-docs.deepseek.com/quick_start/pricing)，`deepseek-flash` 支持图片输入，V4-Pro 不支持。其他模型请查各自文档。
+
+模型支持图片还不够，客户端或第三方 API 网关也要把图片真正传过去。评测中出现过图片没传到模型、模型却描述了一张不存在的照片的情况。所以每张学习卡第一行都是“我看到的画面”，先核对这一行再往下读；对不上就换模型或客户端。
 
 ## 安装
 
@@ -49,7 +51,7 @@ SKILL.md                         流程与核心规则
 references/photo-analysis.md     诊断步骤，构图、用光、色彩、镜头怎么看
 references/card-format.md        学习卡模板、交付前检查表和完整示例
 references/practice-review.md    A/B 练习复盘
-references/acceptance-tests.md   验收用例 T1–T18
+references/acceptance-tests.md   验收用例 T1–T19
 prompts/chat-prompt.md           聊天 App 用的提示词
 evals/README.md                  怎样评测输出是否稳定
 agents/openai.yaml               技能展示信息
