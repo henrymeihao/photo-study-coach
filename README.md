@@ -1,56 +1,72 @@
 # 摄影拆解与练习 · Photo Study Coach
 
-把喜欢的摄影作品拆成看得懂、能尝试的拍摄判断，再用自己的照片对照复盘。
+把喜欢的摄影作品，或你自己拍的照片，变成一个下次拍照能用的决定：先看什么、只改哪一处、拍完怎么检查。
 
-这是一份供支持 Skill 的 AI Agent 使用的中文技能指令，不是独立应用。它指导 Agent 读取作品、分析构图与用光、制作个人学习手册，并在需要时安排实拍练习。
+每张图只教一个技巧，再配一个“只改一处会怎样”的对照，让你用 A/B 两张实拍去验证。分析时区分作者原文或 EXIF、画面可见证据和推测，不编造相机参数。
 
-## 可以做什么
+## 两种用法
 
-- 拆解指定作品或摄影师图组，保留作者与来源。
-- **一图一技巧**：优先解释最值得学的一个拍摄决策，指出照片里的证据及选择理由，而不是平均罗列摄影术语。
-- **反事实学习**：只改变一个变量，推演画面可能怎样变化、会获得和失去什么，再设计 A/B 实拍验证；推演不是实际拍摄事实。
-- 制作构图标注、机位与布光示意，区分事实和推测。
-- 有实际图片和计算工具时生成色彩统计，避免编造比例。
-- 默认以三分钟速学卡进入：现场四步决策、跨场景迁移和A/B回传说明；深度分析与EXIF折叠。离线HTML保留可切换标注、原图放大和可编辑Markdown，PDF按需。
-- 比较参考与自己的照片，提出下一次实拍可以改变的一件事。
+**在 AI Agent 里用（Codex、Claude Code 等支持 Skill 的客户端）**：Agent 按固定模板输出学习卡，需要时存成 Markdown 或制作离线 HTML。
 
-## 安装与使用
+**在聊天 App 里用（DeepSeek、豆包、Kimi、ChatGPT 等）**：复制 [prompts/chat-prompt.md](prompts/chat-prompt.md) 里的提示词，再上传照片。不需要安装任何东西。
 
-把本仓库复制到 Agent 的技能目录，并确保目录名为 `photo-study-coach`，目录内直接包含 `SKILL.md`。例如 Codex 常用目录为 `~/.codex/skills/photo-study-coach/`。让客户端重新加载技能后调用：
+## 模型要求
+
+模型必须能读取图片。纯文本模型看不到照片，技能会在第一步停下并提示你换模型。以 DeepSeek 为例，按 2026-11-18 的[官方模型页](https://api-docs.deepseek.com/quick_start/pricing)，`deepseek-flash` 支持图片输入，V4-Pro 不支持。其他模型请查各自文档。
+
+## 安装
+
+目录名必须是 `photo-study-coach`，目录内直接包含 `SKILL.md`：
+
+```bash
+# Codex
+git clone https://github.com/henrymeihao/photo-study-coach ~/.codex/skills/photo-study-coach
+
+# Claude Code
+git clone https://github.com/henrymeihao/photo-study-coach ~/.claude/skills/photo-study-coach
+```
+
+其他客户端放到各自的技能目录。仓库只有 Markdown 和 YAML 文本，没有可执行脚本，不需要安装依赖。
+
+重新加载技能后：
 
 ```text
-用 $photo-study-coach 拆解这组摄影作品：[链接或图片]。
-每张先指出最值得学的一个技巧，再做一个单变量反事实对照：
-“如果只改变这一处，画面可能会怎样、得失是什么？”
-区分事实和推测，做一份学习手册，并给我一个 A/B 实拍练习。
+用 $photo-study-coach 拆解这组作品：[链接或图片]
 ```
 
 ```text
-用 $photo-study-coach 对比这些参考图和我拍的照片。
-找出最大的画面差异，下次只改一件事。
+用 $photo-study-coach 看看我拍的这张，下次只改一处的话改什么？
 ```
 
-## 依赖与边界
-
-需要 Agent 具有图片理解能力。读取网页需要可用的浏览能力；绘图、色彩统计和 PDF 输出需要相应本地工具。仓库没有附带网站爬虫、模型服务或 PDF 引擎，也不保证任意平台的链接均可读取。
-
-相机参数与布光不能只凭成片准确还原。技能要求把作者说明或 EXIF、画面可见证据、待验证假设分别表达。机位图是学习示意，除非有来源证明，否则不代表原作者真实拍摄过程。
-
-已完成一张用户本地照片的 HTML 实战分析，并在浏览器验证图片加载、标注切换和原图放大。私人样例未上传；PDF 流程与实际学习效果仍待验证。
+```text
+这是 A/B 练习照，A 是低机位，B 只升高了相机。帮我复盘。
+```
 
 ## 文件
 
 ```text
-SKILL.md                 技能入口与分析、练习、复盘流程
-references/photo-analysis.md   摄影分析引擎 v4：现场决策、迁移与按需深读
-references/acceptance-tests.md  技术与教学验收场景
-references/handbook.md         学习手册版式与检查要求
-references/practice-review.md  A/B练习回传、反馈与学习状态证据
-agents/openai.yaml            技能展示信息
+SKILL.md                         流程与核心规则
+references/photo-analysis.md     诊断步骤，构图、用光、色彩、镜头怎么看
+references/card-format.md        学习卡模板、交付前检查表和完整示例
+references/practice-review.md    A/B 练习复盘
+references/acceptance-tests.md   验收用例 T1–T18
+prompts/chat-prompt.md           聊天 App 用的提示词
+evals/README.md                  怎样评测输出是否稳定
+agents/openai.yaml               技能展示信息
 ```
 
-## 灵感来源
+## 边界
+
+相机参数与布光无法只凭成片准确还原。机位图和对照都是学习示意，除非有来源，否则不代表作者真实的拍摄过程。读取网页需要客户端有浏览能力，本仓库不附带爬虫，也不保证任意平台的链接都能读取。
+
+## 反馈
+
+用过之后，欢迎在 Issues 里用“使用反馈”模板告诉我：你用它做了什么、有没有真的去拍 A/B、哪部分有用、哪部分没看。这些信息决定接下来改什么。
+
+## 灵感来源与许可
 
 受到小红书作者 **LEMON 林檬养乐多** 的[《为了高效学摄影，我专门做了个skill》](https://www.xiaohongshu.com/explore/6ae82d7b000000002501a570)启发，依据公开演示重新编写。未取得或复制其私信分发的技能源码，与原作者没有合作或官方关联。
 
-本仓库仅包含新编写的技能说明，不包含原帖图片、第三方摄影原图、私人照片或个人学习记录。生成学习资料时请保留原作者署名与来源；发布或再分发第三方图片需另行确认相应权利。
+本仓库仅包含新编写的说明和脚本，不包含原帖图片、第三方摄影原图、私人照片或个人学习记录。生成学习资料时请保留原作者署名与来源；发布或再分发第三方图片需另行确认相应权利。
+
+代码与文档以 [MIT 许可](LICENSE) 发布。

@@ -1,0 +1,41 @@
+name: 使用反馈
+description: 用过之后告诉我哪里有用、哪里没用
+labels: [feedback]
+body:
+  - type: dropdown
+    id: scenario
+    attributes:
+      label: 这次你用它做什么
+      options:
+        - 拆解别人的作品
+        - 点评我自己拍的照片
+        - 复盘 A/B 练习照
+        - 其他
+    validations:
+      required: true
+  - type: input
+    id: model
+    attributes:
+      label: 用的什么客户端和模型
+      placeholder: 例如 Codex + GPT，或 DeepSeek App
+  - type: dropdown
+    id: practiced
+    attributes:
+      label: 你有没有真的去拍 A/B 练习
+      options:
+        - 拍了，而且发回来复盘了
+        - 拍了，没有复盘
+        - 还没拍
+        - 不打算拍
+    validations:
+      required: true
+  - type: textarea
+    id: useful
+    attributes:
+      label: 哪部分最有用，哪部分没看或没用
+  - type: textarea
+    id: wrong
+    attributes:
+      label: 有没有说错或编造的地方
+      description: 请不要上传别人受版权保护的照片或含个人隐私的照片。
+
