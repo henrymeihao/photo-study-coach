@@ -112,6 +112,8 @@
 
 图例说明应解释标注为什么支持某项判断，不重复整段分析。
 
+注意：标注图层是 SVGElement，不应使用 `layer.hidden = ...` 控制其 HTML `hidden` 属性。点击切换时必须使用 `layer.toggleAttribute("hidden", !visible)` 或显式 `removeAttribute` / `setAttribute`；HTML 图例容器可以使用 `legend.hidden = ...`。
+
 ### 深度区：`{{ADVANCED_SECTION}}`
 
 有内容时填入一个完整 `<section class="deep-section">`，内部使用一个或多个原生 `<details class="deep-item">`。可放证据/替代解释、参数来源、迁移、反事实与局限。默认关闭；不要把可见主体整段复制进去。无额外价值时整个片段为空。

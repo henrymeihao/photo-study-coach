@@ -237,7 +237,7 @@
       toggle.addEventListener("click", () => {
         const visible = toggle.getAttribute("aria-pressed") !== "true";
         toggle.setAttribute("aria-pressed", String(visible));
-        layer.hidden = !visible;
+        layer.toggleAttribute("hidden", !visible);
         legend.hidden = !visible;
         toggle.textContent = visible ? "隐藏标注，查看原图" : "显示观察标注";
       });
