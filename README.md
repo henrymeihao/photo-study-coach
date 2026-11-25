@@ -1,20 +1,16 @@
 # 摄影拆解与练习 · Photo Study Coach
 
-把喜欢的摄影作品，或你自己拍的照片，变成一个下次拍照能用的决定：先看什么、只改哪一处、拍完怎么检查。
+把喜欢的摄影作品，或你自己拍的照片，变成真正能迁移到下一次拍摄的摄影判断：**它为什么好看，以及我怎样拍出类似的效果。**
 
-每张图只教一个技巧，再配一个“只改一处会怎样”的对照，让你用 A/B 两张实拍去验证。分析时区分作者原文或 EXIF、画面可见证据和推测，不编造相机参数。
+Photo Study Coach 不只是描述构图和光线，而是解释光影、构图、色彩、人物表现如何共同产生视觉效果，再把方法拆成三个现场要素：**光线、构图、色彩**。
+
+默认交付视觉优先的离线 HTML 学习卡和 Markdown 档案。HTML 保留原图，用 SVG 在原图上叠加标注；不使用生成式模型重绘照片。深度分析默认折叠，镜头与参数模块优先解释镜头语言，并严格区分 EXIF 事实、画面推断和未知参数。
 
 ## 两种用法
 
-**在 AI Agent 里用（Codex、Claude Code 等支持 Skill 的客户端）**：Agent 按固定模板输出学习卡，需要时存成 Markdown 或制作离线 HTML。
+**在 AI Agent 里用（Codex、Claude Code 等支持 Skill 的客户端）**：Agent 按固定结构分析照片，默认制作离线 HTML 和 Markdown；用户明确只要文字或其他格式时遵循指定格式。
 
-**在聊天 App 里用（DeepSeek、豆包、Kimi、ChatGPT 等）**：复制 [prompts/chat-prompt.md](prompts/chat-prompt.md) 里的提示词，再上传照片。不需要安装任何东西。
-
-## 模型要求
-
-模型必须能读取图片。以 DeepSeek 为例，按 2026-11-18 的[官方模型页](https://api-docs.deepseek.com/quick_start/pricing)，`deepseek-flash` 支持图片输入，V4-Pro 不支持。其他模型请查各自文档。
-
-模型支持图片还不够，客户端或第三方 API 网关也要把图片真正传过去。评测中出现过图片没传到模型、模型却描述了一张不存在的照片的情况。所以每张学习卡第一行都是“我看到的画面”，先核对这一行再往下读；对不上就换模型或客户端。
+**在聊天 App 里用**：复制 [prompts/chat-prompt.md](prompts/chat-prompt.md) 的提示词，再上传照片。模型必须支持图片输入，客户端或 API 网关也必须真正传递图片。
 
 ## 安装
 
@@ -28,47 +24,42 @@ git clone https://github.com/henrymeihao/photo-study-coach ~/.codex/skills/photo
 git clone https://github.com/henrymeihao/photo-study-coach ~/.claude/skills/photo-study-coach
 ```
 
-其他客户端放到各自的技能目录。仓库只有 Markdown 和 YAML 文本，没有可执行脚本，不需要安装依赖。
-
 重新加载技能后：
 
 ```text
-用 $photo-study-coach 拆解这组作品：[链接或图片]
+用 $photo-study-coach 拆解这张照片：为什么好看，以及怎么复刻？
 ```
 
 ```text
-用 $photo-study-coach 看看我拍的这张，下次只改一处的话改什么？
-```
-
-```text
-这是 A/B 练习照，A 是低机位，B 只升高了相机。帮我复盘。
+用 $photo-study-coach 点评我拍的这张人像，重点看光影、构图和色彩。
 ```
 
 ## 文件
 
 ```text
-SKILL.md                         流程与核心规则
-references/photo-analysis.md     诊断步骤，构图、用光、色彩、镜头怎么看
-references/card-format.md        学习卡模板、交付前检查表和完整示例
-references/practice-review.md    A/B 练习复盘
-references/acceptance-tests.md   验收用例 T1–T19
+SKILL.md                         主流程、产品原则与交付规则
+references/photo-analysis.md     摄影分析方法、三要素复刻、镜头语言与参数可信度
+references/card-format.md        HTML/Markdown 信息架构与交付检查
+references/practice-review.md    可选实拍练习与回传复盘
+references/acceptance-tests.md   输出验收用例
 prompts/chat-prompt.md           聊天 App 用的提示词
 evals/README.md                  怎样评测输出是否稳定
 agents/openai.yaml               技能展示信息
 ```
 
-## 边界
+## 关键边界
 
-相机参数与布光无法只凭成片准确还原。机位图和对照都是学习示意，除非有来源，否则不代表作者真实的拍摄过程。读取网页需要客户端有浏览能力，本仓库不附带爬虫，也不保证任意平台的链接都能读取。
-
-## 反馈
-
-用过之后，欢迎在 Issues 里用“使用反馈”模板告诉我：你用它做了什么、有没有真的去拍 A/B、哪部分有用、哪部分没看。这些信息决定接下来改什么。
+- 原始照片保持不变。标注使用 SVG/CSS 叠加；不使用 AI 生图重绘照片。
+- 不强制每张照片都设计 A/B 练习。练习应服务于真实学习目标。
+- 相机参数与布光无法只凭成片准确还原。EXIF/作者原文有证据时引用；否则解释镜头语言，未知参数直接标注未知。
+- 不把推测的光源、机位、焦段或器材写成作者真实拍摄过程。
+- 需要 HTML 时使用单文件离线交付，不依赖在线 API 或外部图片地址。
+- 不上传私人照片、私人学习笔记或活动记录到公开仓库。
 
 ## 灵感来源与许可
 
-受到小红书作者 **LEMON 林檬养乐多** 的[《为了高效学摄影，我专门做了个skill》](https://www.xiaohongshu.com/explore/6ae82d7b000000002501a570)启发，依据公开演示重新编写。未取得或复制其私信分发的技能源码，与原作者没有合作或官方关联。
+受到小红书作者 **LEMON 林檬养乐多** 的《为了高效学摄影，我专门做了个skill》启发，依据公开演示重新编写。未取得或复制其私信分发的技能源码，与原作者没有合作或官方关联。
 
-本仓库仅包含新编写的说明和脚本，不包含原帖图片、第三方摄影原图、私人照片或个人学习记录。生成学习资料时请保留原作者署名与来源；发布或再分发第三方图片需另行确认相应权利。
+生成学习资料时请保留原作者署名与来源；发布或再分发第三方图片需另行确认相应权利。
 
 代码与文档以 [MIT 许可](LICENSE) 发布。
