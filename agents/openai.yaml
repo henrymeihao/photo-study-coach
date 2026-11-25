@@ -1,5 +1,4 @@
 interface:
   display_name: "摄影拆解与练习"
-  short_description: "每张照片只学一个技巧，配只改一处的 A/B 实拍练习和复盘"
-  default_prompt: "用 $photo-study-coach 拆解这张照片：只讲一个最值得学的技巧，区分事实和推测，给我一个 A/B 实拍练习。"
-
+  short_description: "解释照片为什么好看，并用光线、构图、色彩教你复刻"
+  default_prompt: "用 $photo-study-coach 拆解这张照片：讲清它为什么好看，并给我光线、构图、色彩三个要素的复刻方法。"
