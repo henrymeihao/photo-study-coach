@@ -64,20 +64,20 @@ HTML 是呈现层，不是重新分析照片的地方。默认交付仍为**离�
 ### 固定模板是唯一视觉基线
 
 生成 HTML 前，必须读取以下文件，不得只凭本节或模型记忆自由设计：
-- \`references/card-format.md\`
-- \`references/html-design-system.md\`
-- \`references/html-content-schema.md\`
-- \`references/html-template.html\`
+- `references/card-format.md`
+- `references/html-design-system.md`
+- `references/html-content-schema.md`
+- `references/html-template.html`
 
-**必须以 \`html-template.html\` 为起点填充内容。** 不得从空白文档重新设计页面，不得另起一套 CSS，不得擅自更换字体体系、配色、版式、组件样式或交互。需要增加内容时，优先使用 Schema 已定义的片段结构；确有必要增加新组件时，先沿用现有设计 token 和组件语义，并同步更新设计规范与验收用例，不能只在单次输出里临时发明样式。
+**必须以 `html-template.html` 为起点填充内容。** 不得从空白文档重新设计页面，不得另起一套 CSS，不得擅自更换字体体系、配色、版式、组件样式或交互。需要增加内容时，优先使用 Schema 已定义的片段结构；确有必要增加新组件时，先沿用现有设计 token 和组件语义，并同步更新设计规范与验收用例，不能只在单次输出里临时发明样式。
 
 ### 渲染流程
 
 1. 先完成照片分析，再开始 HTML 渲染；不得为了填模板反过来编造分析。
 2. 确认当前 Agent 真正取得了原图字节、原始宽高和可展示的图像格式。只有文件名、链接、EXIF 或文字描述时，不得生成带假图、占位图或外部图片 URL 的 HTML；继续按可用证据回答，必要时请用户上传原图。
-3. 按 \`html-content-schema.md\` 准备标题、观察、核心判断、分析卡、三要素复刻、镜头与参数、深度分析、来源和验证说明。
+3. 按 `html-content-schema.md` 准备标题、观察、核心判断、分析卡、三要素复刻、镜头与参数、深度分析、来源和验证说明。
 4. 将原图以 Data URI 内嵌到模板，使用原始宽高属性；保留原图比例和像素，不裁切、不重绘、不调用生成式图像模型。
-5. 将 SVG 标注叠加在原图上。坐标必须以原图像素为基准，SVG \`viewBox\` 必须与原图宽高一致；不能确认位置时宁可不画，不得使用通用占位框冒充精确标注。
+5. 将 SVG 标注叠加在原图上。坐标必须以原图像素为基准，SVG `viewBox` 必须与原图宽高一致；不能确认位置时宁可不画，不得使用通用占位框冒充精确标注。
 6. 仅替换模板中定义的占位符。文字值必须做 HTML 转义；片段值遵守 Schema 的允许标签和结构。不得把用户文本直接当作 HTML、CSS 或 JavaScript 执行。
 7. 删除没有内容的可选模块，不留下空标题、空卡片、空折叠面板或无效按钮。标注层不存在时，同时删除标注按钮和图例。
 8. 默认可见的速学主体以约 300–500 个中文字为目标；复杂照片可适度增加，但不重复同一结论。深度证据、替代解释、参数细节和来源补充放进折叠区。
@@ -102,10 +102,10 @@ HTML 是呈现层，不是重新分析照片的地方。默认交付仍为**离�
 
 ## 7. 交付前验收
 
-读取 \`references/card-format.md\`、\`references/html-design-system.md\`、\`references/html-content-schema.md\` 与 \`references/acceptance-tests.md\`。逐项检查与本次目标有关的用例，尤其是：
+读取 `references/card-format.md`、`references/html-design-system.md`、`references/html-content-schema.md` 与 `references/acceptance-tests.md`。逐项检查与本次目标有关的用例，尤其是：
 - 原图是否真实内嵌、比例正确、像素未被生成式模型修改。
-- 模板视觉结构、设计 token、组件样式是否保持一致；是否残留 \`{{PLACEHOLDER}}\`。
-- SVG \`viewBox\`、标注坐标、编号和图例是否一一对应；推测标注是否明确编码。
+- 模板视觉结构、设计 token、组件样式是否保持一致；是否残留 `{{PLACEHOLDER}}`。
+- SVG `viewBox`、标注坐标、编号和图例是否一一对应；推测标注是否明确编码。
 - 默认可见内容是否精炼，深度信息是否折叠，是否出现重复段落或空模块。
 - 三要素是否包含现场动作与检查信号；镜头语言是否优先于参数猜测。
 - 是否没有外部网络依赖、虚假按钮、未实现的上传/保存能力或隐私素材。
