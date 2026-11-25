@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>{{TITLE}} · Photo Study Coach</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #F4F3ED;
+      --surface: #FBFAF6;
+      --ink: #26362D;
+      --muted: #68746C;
+      --line: #DDE2D9;
+      --accent: #566D5B;
+      --accent-soft: #E8ECE5;
+      --highlight: #D7B978;
+      --page-width: 1440px;
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { background: var(--paper); }
+    body {
+      margin: 0; background: var(--paper); color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      font-size: 15px; line-height: 1.72; -webkit-font-smoothing: antialiased;
+    }
+    button, summary { font: inherit; }
+    button:focus-visible, summary:focus-visible { outline: 3px solid var(--highlight); outline-offset: 3px; }
+    .page-shell { max-width: var(--page-width); margin: 0 auto; padding: 0 42px; }
+    .site-header { padding: 34px 0 28px; }
+    .brandline {
+      display: flex; align-items: center; gap: 12px; color: var(--muted);
+      font-size: 10px; letter-spacing: .19em; text-transform: uppercase;
+    }
+    .brandline::after { content: ""; width: 34px; height: 1px; background: var(--line); }
+    h1 {
+      margin: 11px 0 5px; font-family: "Iowan Old Style", "Songti SC", "Noto Serif CJK SC", Georgia, serif;
+      font-size: clamp(32px, 4vw, 48px); line-height: 1.22; font-weight: 500; letter-spacing: .015em;
+    }
+    .deck { margin: 0; max-width: 660px; color: var(--muted); font-size: 14px; }
+    .layout {
+      display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(360px, .94fr);
+      gap: 42px; align-items: start; padding-bottom: 54px;
+    }
+    .visual-column { min-width: 0; position: sticky; top: 22px; }
+    .photo-card {
+      margin: 0; padding: 10px; background: var(--surface);
+      border: 1px solid var(--line); border-radius: var(--radius);
+    }
+    .photo-frame { position: relative; overflow: hidden; border-radius: 11px; background: #202A23; line-height: 0; }
+    .photo-frame img { display: block; width: 100%; height: auto; max-width: 100%; }
+    .annotation-layer {
+      position: absolute; inset: 0; display: block; width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .annotation-layer[hidden] { display: none !important; }
+    .annotation-layer .annotation-number circle { fill: var(--highlight); stroke: #26362D; stroke-width: 2; }
+    .annotation-layer .annotation-number text {
+      fill: #26362D; font: 700 30px -apple-system, BlinkMacSystemFont, sans-serif;
+    }
+    .photo-caption { padding: 10px 4px 2px; color: var(--muted); font-size: 11px; letter-spacing: .025em; }
+    .annotation-tools { margin: 13px 0 0; }
+    .annotation-toggle {
+      border: 1px solid var(--accent); border-radius: 999px; padding: 8px 15px;
+      background: transparent; color: var(--accent); cursor: pointer; font-size: 12px;
+      transition: background .15s ease, color .15s ease;
+    }
+    .annotation-toggle[aria-pressed="true"] { background: var(--accent); color: white; }
+    .annotation-legend {
+      margin-top: 11px; padding: 13px 16px; border-radius: 12px;
+      background: var(--accent-soft); color: var(--ink); font-size: 12px;
+    }
+    .annotation-legend[hidden] { display: none !important; }
+    .annotation-legend p { margin: 5px 0; }
+    .annotation-legend b {
+      display: inline-flex; width: 21px; height: 21px; margin-right: 7px;
+      align-items: center; justify-content: center; border-radius: 50%;
+      background: var(--highlight); font-size: 11px;
+    }
+    .observation { margin-top: 22px; padding-top: 17px; border-top: 1px solid var(--line); }
+    .eyebrow, .section-kicker {
+      color: var(--accent); font-size: 10px; letter-spacing: .14em; text-transform: uppercase;
+    }
+    .observation h2 { margin: 5px 0 7px; font-size: 16px; font-weight: 600; }
+    .observation p { margin: 0; color: var(--muted); font-size: 13px; }
+    .intent-note {
+      margin-top: 10px !important; padding-left: 12px;
+      border-left: 2px solid var(--highlight); color: var(--ink) !important;
+    }
+    .study-column { min-width: 0; }
+    .lead { padding: 2px 0 22px; border-bottom: 1px solid var(--line); }
+    .lead h2 { margin: 8px 0 9px; font-size: 24px; line-height: 1.42; font-weight: 600; letter-spacing: -.015em; }
+    .decision { margin: 0; font-size: 16px; line-height: 1.7; font-weight: 600; }
+    .lead-explanation { margin: 8px 0 0; color: var(--muted); font-size: 14px; }
+    .section-heading {
+      display: flex; align-items: baseline; justify-content: space-between;
+      gap: 12px; margin: 25px 0 12px;
+    }
+    .section-heading h2 { margin: 0; font-size: 17px; font-weight: 600; }
+    .section-heading span { color: var(--muted); font-size: 10px; letter-spacing: .1em; }
+    .insight-card {
+      display: grid; grid-template-columns: 28px minmax(0, 1fr);
+      gap: 10px; padding: 14px 0; border-top: 1px solid var(--line);
+    }
+    .insight-index { padding-top: 1px; color: var(--accent); font-family: Georgia, serif; font-size: 15px; }
+    .insight-copy h3 { margin: 0 0 5px; font-size: 14px; font-weight: 600; }
+    .insight-copy p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.72; }
+    .insight-copy strong { color: var(--ink); font-weight: 600; }
+    .replica-grid { display: grid; grid-template-columns: 1fr; gap: 9px; }
+    .replica-card {
+      padding: 15px 17px; border: 1px solid var(--line);
+      border-radius: 13px; background: var(--surface);
+    }
+    .replica-heading { display: flex; align-items: center; gap: 9px; }
+    .replica-index {
+      display: inline-flex; width: 23px; height: 23px; flex: 0 0 23px;
+      align-items: center; justify-content: center; border-radius: 50%;
+      background: var(--accent-soft); color: var(--accent); font-size: 11px;
+    }
+    .replica-heading h3 { margin: 0; font-size: 14px; font-weight: 600; }
+    .replica-action { margin: 8px 0 5px; font-size: 13px; }
+    .replica-check {
+      margin: 0; padding-left: 10px; border-left: 2px solid var(--highlight);
+      color: var(--muted); font-size: 12px;
+    }
+    .optics-section { margin-top: 24px; padding-top: 17px; border-top: 1px solid var(--line); }
+    .optics-section h2 { margin: 0 0 7px; font-size: 15px; font-weight: 600; }
+    .optics-section p { margin: 5px 0; color: var(--muted); font-size: 12px; }
+    .deep-section { margin-top: 24px; border-top: 1px solid var(--line); }
+    .deep-section > h2 { margin: 17px 0 5px; font-size: 15px; font-weight: 600; }
+    .deep-item { padding: 12px 0; border-top: 1px solid var(--line); }
+    .deep-item summary { cursor: pointer; font-size: 13px; font-weight: 600; }
+    .deep-content { padding: 7px 0 0; color: var(--muted); font-size: 12px; }
+    .deep-content p { margin: 6px 0; }
+    .deep-content ul, .deep-content ol { padding-left: 19px; }
+    .page-footer { padding: 17px 0 30px; border-top: 1px solid var(--line); color: var(--muted); font-size: 10px; line-height: 1.65; }
+    .page-footer p { margin: 4px 0; }
+    .page-footer .verification { color: var(--accent); }
+    @media (max-width: 900px) {
+      .page-shell { padding: 0 21px; }
+      .site-header { padding: 25px 0 20px; }
+      .layout { grid-template-columns: minmax(0, 1fr); gap: 27px; padding-bottom: 35px; }
+      .visual-column { position: static; }
+      .photo-card { padding: 7px; border-radius: 14px; }
+      .photo-frame { border-radius: 9px; }
+      .lead h2 { font-size: 22px; }
+      .section-heading { margin-top: 22px; }
+    }
+    @media (max-width: 420px) {
+      body { font-size: 14px; }
+      .page-shell { padding: 0 17px; }
+      h1 { font-size: 31px; }
+      .deck { font-size: 13px; }
+      .observation p, .insight-copy p, .replica-action { font-size: 12px; }
+    }
+    @media print {
+      @page { margin: 14mm; }
+      body { background: white; color: #222; font-size: 11pt; }
+      .page-shell { max-width: none; padding: 0; }
+      .site-header { padding: 0 0 14px; }
+      h1 { font-size: 28pt; }
+      .layout { display: block; padding: 0; }
+      .visual-column { position: static; margin-bottom: 18px; }
+      .photo-card { max-width: 180mm; margin: 0 auto; }
+      .annotation-tools { display: none !important; }
+      .deep-item { break-inside: avoid; }
+      .deep-item > .deep-content { display: block !important; }
+      details:not([open]) > .deep-content { display: block !important; }
+      .insight-card, .replica-card, .lead, .optics-section { break-inside: avoid; }
+      .page-footer { padding: 12px 0 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-shell">
+    <header class="site-header">
+      <div class="brandline">PHOTO STUDY COACH <span>FIELD NOTES</span></div>
+      <h1>{{TITLE}}</h1>
+      <p class="deck">{{DECK}}</p>
+    </header>
+    <main class="layout">
+      <aside class="visual-column" aria-label="原图与画面观察">
+        <figure class="photo-card">
+          <div class="photo-frame">
+            <img src="{{IMAGE_DATA_URI}}" alt="{{IMAGE_ALT}}"
+                 width="{{IMAGE_WIDTH}}" height="{{IMAGE_HEIGHT}}" decoding="async">
+            {{ANNOTATION_LAYER}}
+          </div>
+          <figcaption class="photo-caption">原图 · 保留原始比例与像素 · {{IMAGE_DIMENSIONS_LABEL}}</figcaption>
+        </figure>
+        {{ANNOTATION_CONTROL}}
+        <section class="observation">
+          <div class="eyebrow">FIRST LOOK / 观察</div>
+          <h2>先看画面</h2>
+          <p>{{OBSERVATION_TEXT}}</p>
+          {{INTENT_NOTE}}
+        </section>
+      </aside>
+      <article class="study-column">
+        <section class="lead">
+          <div class="section-kicker">01 / THE DECISION</div>
+          <h2>最值得学习的决定</h2>
+          <p class="decision">{{CORE_DECISION}}</p>
+          <p class="lead-explanation">{{CORE_EXPLANATION}}</p>
+        </section>
+        <section class="insights-section">
+          <div class="section-heading"><h2>为什么好看</h2><span>READ THE IMAGE</span></div>
+          {{ANALYSIS_CARDS}}
+        </section>
+        <section class="replication-section">
+          <div class="section-heading"><h2>带到现场 · 三要素复刻</h2><span>TRY IT YOURSELF</span></div>
+          <div class="replica-grid">{{REPLICATION_CARDS}}</div>
+        </section>
+        <section class="optics-section">
+          <div class="section-kicker">LENS LANGUAGE / PARAMETERS</div>
+          <h2>镜头与参数</h2>
+          <p>{{LENS_SUMMARY}}</p>
+          <p>{{PARAMETER_SUMMARY}}</p>
+        </section>
+        {{ADVANCED_SECTION}}
+      </article>
+    </main>
+    <footer class="page-footer">
+      <p>{{SOURCE_LINE}}</p>
+      <p class="verification">{{VERIFICATION_LINE}}</p>
+      <p>PHOTO STUDY COACH · OFFLINE STUDY CARD</p>
+    </footer>
+  </div>
+  <script>
+    (() => {
+      const toggle = document.querySelector("[data-annotation-toggle]");
+      const layer = document.querySelector("[data-annotation-layer]");
+      const legend = document.querySelector("[data-annotation-legend]");
+      if (!toggle || !layer || !legend) return;
+      toggle.addEventListener("click", () => {
+        const visible = toggle.getAttribute("aria-pressed") !== "true";
+        toggle.setAttribute("aria-pressed", String(visible));
+        layer.hidden = !visible;
+        legend.hidden = !visible;
+        toggle.textContent = visible ? "隐藏标注，查看原图" : "显示观察标注";
+      });
+    })();
+    (() => {
+      const details = Array.from(document.querySelectorAll(".deep-item"));
+      let previous = [];
+      window.addEventListener("beforeprint", () => {
+        previous = details.map(item => item.open);
+        details.forEach(item => { item.open = true; });
+      });
+      window.addEventListener("afterprint", () => {
+        details.forEach((item, index) => { item.open = previous[index] ?? false; });
+      });
+    })();
+  </script>
+</body>
+</html>

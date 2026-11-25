@@ -4,7 +4,7 @@
 
 Photo Study Coach 不只是描述构图和光线，而是解释光影、构图、色彩、人物表现如何共同产生视觉效果，再把方法拆成三个现场要素：**光线、构图、色彩**。
 
-默认交付视觉优先的离线 HTML 学习卡和 Markdown 档案。HTML 保留原图，用 SVG 在原图上叠加标注；不使用生成式模型重绘照片。深度分析默认折叠，镜头与参数模块优先解释镜头语言，并严格区分 EXIF 事实、画面推断和未知参数。
+默认交付视觉优先的离线 HTML 学习卡和 Markdown 档案。HTML 使用仓库固定模板与设计系统，Agent 只负责填充经过证据约束的分析内容；原图以 Data URI 内嵌，SVG 仅作叠加标注，不使用生成式模型重绘照片。深度分析默认折叠，镜头与参数模块优先解释镜头语言，并严格区分 EXIF 事实、画面推断和未知参数。
 
 ## 两种用法
 
@@ -40,6 +40,9 @@ git clone https://github.com/henrymeihao/photo-study-coach ~/.claude/skills/phot
 SKILL.md                         主流程、产品原则与交付规则
 references/photo-analysis.md     摄影分析方法、三要素复刻、镜头语言与参数可信度
 references/card-format.md        HTML/Markdown 信息架构与交付检查
+references/html-template.html    固定离线 HTML 页面模板（视觉与交互基线）
+references/html-design-system.md  视觉 token、布局、组件与响应式规范
+references/html-content-schema.md HTML 占位符、内容结构与安全填充规则
 references/practice-review.md    可选实拍练习与回传复盘
 references/acceptance-tests.md   输出验收用例
 prompts/chat-prompt.md           聊天 App 用的提示词
@@ -53,7 +56,8 @@ agents/openai.yaml               技能展示信息
 - 不强制每张照片都设计 A/B 练习。练习应服务于真实学习目标。
 - 相机参数与布光无法只凭成片准确还原。EXIF/作者原文有证据时引用；否则解释镜头语言，未知参数直接标注未知。
 - 不把推测的光源、机位、焦段或器材写成作者真实拍摄过程。
-- 需要 HTML 时使用单文件离线交付，不依赖在线 API 或外部图片地址。
+- 需要 HTML 时必须使用仓库固定模板与设计系统，单文件离线交付，不依赖在线 API 或外部图片地址。
+- 没有原图字节时不生成假图或外链图；没有实际打开最终文件时不宣称完成浏览器验收。
 - 不上传私人照片、私人学习笔记或活动记录到公开仓库。
 
 ## 灵感来源与许可
